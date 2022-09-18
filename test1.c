@@ -67,25 +67,24 @@ void findData()
     FILE *fptr;
     int id, found;
     fptr = fopen("file.txt","r");
+    printf("\nEnter user ID to find: ");
+    scanf("%d",&id);
 
     while(fread(&u1,sizeof(user),1,fptr))
     {
-        printf("\nEnter user ID to find: ");
-        scanf("%d",&id);
-
         if(u1.id == id)
         {
             found=1;
             printf("\n%-5d%-20s%-8s%-5d%-10s",u1.id,u1.name,u1.password,u1.age,u1.location);
         }
 
-        if(!found)
-        {
-            printf("\nUser not found");
-        }
-
     }
     printf("\n");
+
+    if(!found)
+    {
+        printf("User not found\n");
+    }
 
     fclose(fptr);
 }
@@ -97,11 +96,12 @@ void updateData()
     int id, found;
     fptr = fopen("file.txt","r");
     fptr1 = fopen("update.txt","w");
+    printf("\nEnter user ID to update: ");
+    scanf("%d",&id);
 
     while(fread(&u1,sizeof(user),1,fptr))
     {
-        printf("\nEnter user ID to update: ");
-        scanf("%d",&id);
+
 
         if(u1.id == id)
         {
@@ -121,29 +121,28 @@ void updateData()
         }
         fwrite(&u1,sizeof(user),1,fptr1);
 
-        fclose(fptr);
-        fclose(fptr1);
-        if(found)
-        {
-            fptr1 = fopen("update.txt","r");
-            fptr = fopen("file.txt","w");
-
-            while(fread(&u1,sizeof(user),1,fptr1))
-            {
-                fwrite(&u1,sizeof(user),1,fptr);
-            }
-
-            fclose(fptr);
-            fclose(fptr1);
-        }
-        else
-        {
-            printf("\nUser not found");
-        }
     }
-
     printf("\n");
 
+    fclose(fptr);
+    fclose(fptr1);
+    if(found)
+    {
+        fptr1 = fopen("update.txt","r");
+        fptr = fopen("file.txt","w");
+
+        while(fread(&u1,sizeof(user),1,fptr1))
+        {
+            fwrite(&u1,sizeof(user),1,fptr);
+        }
+
+        fclose(fptr);
+        fclose(fptr1);
+    }
+    else
+    {
+        printf("User not found\n");
+    }
 
 }
 
@@ -195,4 +194,5 @@ int main()
 
     return 0;
 }
+
 
